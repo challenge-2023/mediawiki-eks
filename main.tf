@@ -22,7 +22,7 @@ module "eks" {
 
   cluster_endpoint_public_access  = true
   create_iam_role	= true
-  enable_irsa = false
+  enable_irsa = true
   #create_kms_key	= false
   create_cloudwatch_log_group	= false
   cluster_addons = {
@@ -40,26 +40,6 @@ module "eks" {
   vpc_id                   = data.aws_vpc.eks_vpc.id
   subnet_ids               = data.aws_subnets.eks_subnets.ids
 
-  # Self Managed Node Group(s)
- # self_managed_node_group_defaults = {
- #   instance_type                          = "t3.medium"
- #   update_launch_template_default_version = true
- #   iam_role_additional_policies = {
- #     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
- #   }
- # }
-
-#  self_managed_node_groups = {
-#    one = {
-#      name         = "ng1"
-#      max_size     = 2
-#      desired_size = 2
-
-#      use_mixed_instances_policy = false
-
-#      }
-#    }
-
 
     # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
@@ -68,12 +48,18 @@ module "eks" {
 
   eks_managed_node_groups = {
     ng2 = {
-      min_size     = 1
-      max_size     = 2
-      desired_size = 1
+      min_size     = 2
+      max_size     = 3
+      desired_size = 2
 
       instance_types = ["t3.medium"]
       capacity_type  = "SPOT"
     }
   }
   }
+
+resource "aws_iam_policy" "eks-elb" {
+  # ... other configuration ...
+  name = "AWSLoadBalancerControllerIAMPolicy"
+  policy = "${file("iam_policy.json")}"
+}
