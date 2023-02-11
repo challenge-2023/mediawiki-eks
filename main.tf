@@ -23,6 +23,7 @@ module "eks" {
   cluster_endpoint_public_access  = true
   create_iam_role	= true
   enable_irsa = true
+  create_aws_auth_configmap = true
   manage_aws_auth_configmap = true
   aws_auth_node_iam_role_arns_non_windows = ["arn:aws:iam::210489297222:role/eksnode"]
   #create_kms_key	= false
