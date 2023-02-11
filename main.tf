@@ -23,6 +23,7 @@ module "eks" {
   cluster_endpoint_public_access  = true
   create_iam_role	= true
   enable_irsa = true
+  aws_auth_node_iam_role_arns_non_windows = ["arn:aws:iam::210489297222:role/eksnode"]
   #create_kms_key	= false
   create_cloudwatch_log_group	= false
   cluster_addons = {
