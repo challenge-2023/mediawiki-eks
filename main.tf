@@ -57,9 +57,9 @@ module "eks" {
       min_size     = 2
       max_size     = 3
       desired_size = 2
-      iam_role_additional_policies = [
-        "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-      ]
+      iam_role_additional_policies = {
+        AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
+        }
       instance_types = ["t3.medium"]
       capacity_type  = "SPOT"
     }
